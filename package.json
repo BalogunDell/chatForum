@@ -1,0 +1,51 @@
+{
+  "name": "chat-forum",
+  "version": "1.0.0",
+  "description": "A simple chat forum built with react, redux",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha, chai",
+    "eslint": "eslint --fix server/",
+    "start:devServer": "npm run eslint && nodemon --watch server --exec babel-node server/index.js",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo:all",
+    "seed": "sequelize db:seed:all",
+    "test:server": "nyc --reporter=text mocha --require babel-register -- ./tests/**/*.spec.js"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "mocha",
+    "chai"
+  ],
+  "author": "Balogun Abiodun",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0ls",
+    "express": "^4.16.2",
+    "helmet": "^3.11.0",
+    "mongodb": "^3.0.2",
+    "mongoose": "^5.0.4",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.33.3",
+    "sequelize-cli": "^3.2.0",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^5.0.1",
+    "nodemon": "^1.14.11",
+    "nyc": "^11.4.1",
+    "supertest": "^3.0.0"
+  }
+}
