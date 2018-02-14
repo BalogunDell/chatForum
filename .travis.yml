@@ -1,0 +1,10 @@
+language: node_js
+node: 
+  - node
+  - 6.11.3
+scripts: 
+    - npm test
+env: 
+   - NODE_ENV=test
+before_script: 
+    - npm install

@@ -4,13 +4,12 @@
   "description": "A simple chat forum built with react, redux",
   "main": "index.js",
   "scripts": {
-    "test": "mocha, chai",
     "eslint": "eslint --fix server/",
     "start:devServer": "npm run eslint && nodemon --watch server --exec babel-node server/index.js",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
-    "test:server": "nyc --reporter=text mocha --require babel-register -- ./tests/**/*.spec.js"
+    "test": "./node_modules/.bin/nyc --reporter=text mocha --require babel-register -- ./tests/**/*.spec.js"
   },
   "keywords": [
     "react",

@@ -1,4 +1,3 @@
-import mocha from 'mocha';
 import chai from 'chai';
 import supertest from 'supertest';
 import app from '../../../server';
