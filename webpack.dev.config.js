@@ -12,6 +12,10 @@ const config = {
     publicPath: '/'
   },
   resolve: { extensions: ['.jsx', '.js', '.css'] },
+  devServer: {
+    contentBase: './dist',
+    historyApiFallback: true
+  },
   module: {
     rules: [
       {
@@ -20,7 +24,24 @@ const config = {
         use: 'babel-loader'
       },
       {
-        test: /\.js/
+        test: /\.css$/,
+        exclude: ['node_modules'],
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/gi,
+        exclude: ['node_modules'],
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'images/',
+            publicPath: './'
+          }
+        }
       }
     ]
   },

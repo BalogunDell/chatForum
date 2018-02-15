@@ -6,7 +6,8 @@
   "scripts": {
     "eslint": "eslint --fix server/",
     "start:devServer": "nodemon --watch server --exec babel-node server/index.js",
-    "start:client": "webpack -d --config ./webpack.dev.config.js",
+    "start:devClient": "webpack --config ./webpack.dev.config.js",
+    "start:dev": "npm run start:devClient && npm run start:devServer",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
@@ -43,7 +44,9 @@
     "sequelize": "^4.33.3",
     "sequelize-cli": "^3.2.0",
     "socket.io": "^2.0.4",
+    "style-loader": "^0.20.1",
     "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^4.1.1",
     "winston": "^2.4.0"
   },

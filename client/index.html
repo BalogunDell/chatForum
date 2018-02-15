@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat Forum</title>
-    <script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      >
 </head>
 <body>
-    <h1>Welcome to chat forum</h1>
-    <div>
-      <div id="messageBoard"></div>
-      <input type="text" id="handle"/>
-      <input type="text" id="message"/>
-      <button id="sendBtn">send</button>
-    </div>
-    <div id="entry"></div>
+    <div id="root"></div>
+    <script
+    src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+  </script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+  </script>
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js">
     </script>
