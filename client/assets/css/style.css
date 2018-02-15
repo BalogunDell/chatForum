@@ -1,0 +1,145 @@
+:root {
+  --fontColor: white;
+  --fontSize: 20px;
+}
+
+/* *.col-lg-1,
+*.col-lg-2, */
+*.col-lg-3 {
+  padding: 0;
+  margin: 0
+}
+/* *.col-lg-4,
+*.col-lg-5,
+*.col-lg-6,
+*.col-lg-7,
+*.col-lg-8,
+*.col-lg-9 */
+
+.home-container {
+  background-image: url('https://res.cloudinary.com/djvjxp2am/image/upload/v1518705524/chatForumBackground_ptpba2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.home-container .centered-intro {
+  position: relative;
+  top: 20%;
+  left:5%;
+  color: white;
+  font-size: var(--fontSize);
+}
+
+
+.access-button {
+  background: rgba(111, 48, 115, 0.5);
+  display: inline;
+  border-radius: 10px;
+  color: white;
+  margin: 10px 20px 0 0;
+  cursor: pointer;
+  width: 15%;
+  transition: background 0.5s ease-in;
+  padding: 10px 0 10px 0; 
+}
+
+@media only screen and (max-width: 640px) {
+.home-container .centered-intro {
+  position: relative;
+  top: 40%;
+  left:50%;
+  color: white;
+  text-align: center;
+  font-size: var(--fontSize);
+  transform: translate(-50%, -50%);
+}
+
+.access-button {
+  background: rgba(111, 48, 115, 0.5);
+  display:table-column;
+  border-radius: 10px;
+  color: white;
+  width: 70%;
+  margin: 10px 0 10px 0;
+  transition: background 0.5s ease-in;
+  padding: 0 0 0 0;
+}
+
+}
+.access-button:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modified-links-container {
+  position: fixed;
+  bottom: 0;
+  width: 80%;
+}
+
+.modified-links-container .modified-links {
+  background: rgba(111, 48, 115, 0.5);
+  display: inline;
+  border-radius: 10px;
+  color: white;
+  margin: 10px 20px 0 0;
+  cursor: pointer;
+  width: 15%;
+  transition: background 0.5s ease-in;
+  padding: 5px 0 5px 0; 
+}
+
+@media only screen and (max-width: 641px) {
+  .modified-links-container {
+    position: fixed;
+    bottom: 0;
+    width: 70%;
+  }
+  .modified-links-container .modified-links {
+    background: rgba(111, 48, 115, 0.5);
+    display:table-column;
+    border-radius: 10px;
+    color: white;
+    width: 70%;
+    margin: 5px 0 5px 0;
+    transition: background 0.5s ease-in;
+    padding: 0 0 0 0;
+  }
+}
+
+form {
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  border-radius: 10%;
+  padding: 20px 20px 20px 20px;
+  margin-top: 30px;
+}
+
+
+form h5{
+  text-align: center;
+}
+
+form .login-button {
+  background: rgba(111, 48, 115, 0.5);
+  display: inline;
+  border-radius: 10px;
+  color: white;
+  margin: 20px 20px 0 0;
+  cursor: pointer;
+  width: 50%;
+  transition: background 0.5s ease-in;
+  padding: 10px 10px 10px 10px; 
+}
+
+@media only screen and (max-width:641px) {
+  form {
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    border-radius: 10%;
+    padding: 20px 20px 20px 20px;
+  }
+}
