@@ -1,5 +1,6 @@
 import express from 'express';
 import Usercontroller from '../controllers/UserController';
+import PayloadValidator from '../middlewares/PayloadValidator';
 
 const app = express.Router();
 /**
@@ -15,12 +16,37 @@ app.get('/', (req, res) => {
 });
 
 /**
- * @description route for users, new and old
+ * @description route for new users to be added
  *
  * @param {object} req
  * @param {object} res
  */
-app.post('/users', Usercontroller.saveUser);
+app.post('/register',
+  PayloadValidator.signupPayload,
+  Usercontroller.saveUser
+);
+
+/**
+ * @description route for registered users to login
+ *
+ * @param {object} req
+ * @param {object} res
+ */
+app.post('/login',
+  PayloadValidator.loginPayload,
+  Usercontroller.userLogin
+);
+
+/**
+ * @description route for registered users to login
+ *
+ * @param {object} req
+ * @param {object} res
+ */
+app.get('/users/:userId',
+  PayloadValidator.tokenVerifier,
+  Usercontroller.chatAccess
+);
 
 /**
  * @description Invalid routes
@@ -28,25 +54,25 @@ app.post('/users', Usercontroller.saveUser);
  * @param {object} req
  * @param {object} res
  */
-app.route('*')
-  .get((req, res) => {
-    res.status(404).json({
-      message: 'This page does not exist'
-    });
-  })
-  .post((req, res) => {
-    res.status(404).json({
-      message: 'This page does not exist'
-    });
-  })
-  .put((req, res) => {
-    res.status(404).json({
-      message: 'This page does not exist'
-    });
-  })
-  .delete((req, res) => {
-    res.status(404).json({
-      message: 'This page does not exist'
-    });
-  });
+// app.route('/*')
+//   .post((req, res) => {
+//     res.status(404).json({
+//       message: 'This page does not exist'
+//     });
+//   })
+//   // .get((req, res) => {
+//   //   res.status(404).json({
+//   //     message: 'This page does not exist'
+//   //   });
+//   // })
+//   .put((req, res) => {
+//     res.status(404).json({
+//       message: 'This page does not exist'
+//     });
+//   })
+//   .delete((req, res) => {
+//     res.status(404).json({
+//       message: 'This page does not exist'
+//     });
+  // });
 export default app;

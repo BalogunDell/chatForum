@@ -19,24 +19,6 @@ export default (sequelize, DataTypes) => {
         msg: 'Username should be 3 to 10 characters long'
       }
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'A user with this email exists'
-      },
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Email cannot be empty'
-        },
-        isEmail: {
-          args: true,
-          msg: 'Email is invalid'
-        }
-      }
-    },
 
     password: {
       type: DataTypes.STRING,
