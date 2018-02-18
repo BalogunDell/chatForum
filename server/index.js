@@ -2,17 +2,27 @@ import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
 import winston from 'winston';
-// import bodyParser from 'body-parser';
-// import helmet from 'helmet';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
 import socket from 'socket.io';
-// import routes from './routes';
+
+
+import routes from './routes';
+import SocketController from './controllers/SocketController';
 
 require('dotenv').config();
 
 const app = express();
-app.use(morgan('dev'));
 const port = process.env.PORT;
+
 winston.level = 'info';
+
+app.use(helmet());
+app.disable('x-powered-by');
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(routes);
 app.get('/bundle.js', (req, res) => {
   res.sendFile(path.join(path.dirname(__dirname), 'dist/bundle.js'));
 });
@@ -25,16 +35,7 @@ const server = app.listen(4000, () => {
   winston.level = 'info';
   winston.info('app started');
 });
-const io = socket(server);
-// io.on('connection', (socket) => {
-//   socket.on('chat', (message) => {
-//     io.emit('feedback', {
-//       message: message.message,
-//       handle: message.handle
-//     });
-//   });
 
-//   socket.on('Login', (loginData) => {
-//     winston.info(loginData);
-//   });
-// });
+SocketController.onConnet(socket(server));
+
+export default app;

@@ -49,6 +49,12 @@ const config = {
     new htmlWebpackPlugin({
       template: './client/index.html',
       title: 'Simple Chat Application'
+    }),
+    new webpack.ProvidePlugin({
+      $: 'Juery',
+      jQuery: 'jquery',
+      'window.$': '$',
+      'window.jQuery': 'jquery'
     })
   ]
 };
