@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Input from '../reusables/Input';
 import Button from '../reusables/Button';
 import Label from '../reusables/Label';
-import checkUrl from '../../../helpers/checkUrl';
+import { checkUrl } from '../../../utils/helpers';
 
 /** 
  * @description Form
@@ -22,8 +22,15 @@ const Form = ({
   handleSignUp
 
 }) => {
-   const formSubmitHandler = handleLogin ? handleLogin : handleSignUp;
-  const currentURL = window.location.pathname;
+    const currentURL = window.location.pathname;
+
+    const formSubmitHandler = checkUrl(currentURL)
+    ?
+      handleLogin
+    :
+      handleSignUp;
+
+
     // Check url to know which text to display
     const formTextToDisplay = checkUrl(currentURL) 
     ?  

@@ -43,9 +43,9 @@ app.post('/login',
  * @param {object} req
  * @param {object} res
  */
-app.get('/users/:userId',
+app.get('/user',
   PayloadValidator.tokenVerifier,
-  Usercontroller.chatAccess
+  Usercontroller.getUser
 );
 
 /**

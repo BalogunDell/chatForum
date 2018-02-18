@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Button from '../presentationalComponents/reusables/Button';
 import Form from '../presentationalComponents/reusables/Form';
-import socket from '../../assets/js/chat';
+import { getMethod, postMethod } from '../../assets/js/fetcher';
+import { setStorage } from '../../utils/helpers';
 /** 
  * @description Authentication
  * 
@@ -15,7 +16,8 @@ class Authentication extends React.Component {
     this.state = {
       username: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      redirect: false
     }
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -23,26 +25,108 @@ class Authentication extends React.Component {
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
+
+/**
+ * @description handles changes in event
+ * 
+ * @param {object} event 
+ * @memberof Authentication
+ * 
+ * @returns {object} updated state
+ */
   handleChange(event) {
    this.setState({
      [event.target.name]: event.target.value
    });
   }
 
-  handleLogin(event) {
+
+/**
+ * @description handles user login action
+ * 
+ * @param {object} event 
+ * @memberof Authentication
+ * 
+ * @returns {object} api response and updated state
+ */
+handleLogin(event) {
+  event.preventDefault();
+  const loginData = {
+    username: this.state.username,
+    password: this.state.password
+  };
+  // save to database
+  postMethod(loginData, '/login')
+    .then((response) => {
+      alertify.success(`Welcome ${this.state.username}`);
+      const token = response.data.token;
+      if(setStorage(token)) {
+        this.setState({ 
+          redirect: true,
+          username: '',
+          password: ''
+        });
+      }
+    })
+    .catch((error) => {
+      alertify.error(error.response.data.message);
+      this.setState({
+        username: '',
+        password: ''
+      });
+    });
+  }
+
+
+  /**
+   * @description handles user registration action
+   * 
+   * @param {object} event 
+   * @memberof Authentication
+   * 
+   * @returns {object} api response and updated state
+   */
+  handleSignUp(event) {
     event.preventDefault();
-    const loginData = {
+    const signupData = {
       username: this.state.username,
       password: this.state.password
     }
-    socket.emit('Login', loginData);
+    postMethod(signupData, '/register')
+    .then((response) => {
+      alertify.success(`Welcome ${this.state.username}`);
+      const token = response.data.token;
+      if(setStorage(token)) {
+        this.setState({ 
+          redirect: true,
+          username: '',
+          password: ''
+        });
+      }
+    })
+    .catch((error) => {
+      alertify.error(error.response.data.message);
+      this.setState({
+        username: '',
+        password: ''
+      });
+    });
   }
 
-  handleSignUp(event) {
-    event.preventDefault();
-  }
+
+/**
+ * @description renders the element
+ * 
+ * @memberof Authentication
+ * 
+ * @returns {JSX} DOM representation
+ */
 render() {
   return(
+    this.state.redirect
+    ?
+      <Redirect to="/chat"/>
+    : 
       <div className= 'home-container'>
           <div className="centered-intro">
             <h1>

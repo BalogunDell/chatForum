@@ -61,7 +61,7 @@ class PayloadValidator {
       username,
       password
     } = req.body;
-
+    console.log(req.body);
     if (!username || !password) {
       return res.status(400).json({
         message: 'username and password required'
@@ -100,13 +100,6 @@ class PayloadValidator {
   static tokenVerifier(req, res, next) {
     const { token } = req.headers;
     
-    const { userId } = req.params;
-    const id = parseInt(userId, 10);
-    if (typeof id !== 'number' || !id) {
-      return res.status(401).json({
-        message: 'Invalid user'
-      });
-    }
     if (!token) {
       return res.status(401).json({
         message: 'You cannot access this page'
@@ -114,19 +107,22 @@ class PayloadValidator {
     }
     decodeToken(token)
       .then((decoded) => {
-        if (decoded.id !== id) {
-          return res.status(401).json({
-            message: 'Invalid user id supplied'
+        user.findOne({ where: { id: decoded.id } })
+          .then(() => {
+            req.body = decoded.id;
+            next();
+          })
+          .catch(() => {
+            return res.status(401).json({
+              message: 'You are not permitted to view this page'
+            });
           });
-        }
-        req.body = id;
-        next();
       })
-      .catch((error) => {
-        const { name } = error;
-        if (name === 'TokenExpiredError') {
+      .catch((err) => {
+        const { name } = err;
+        if (name === 'JsonWebTokenError') {
           res.status(401).json({
-            message: 'Session Expired!'
+            message: 'Invalid/Expired token!'
           });
         }
       });

@@ -12,6 +12,11 @@
   margin: 0
 }
 
+*.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 .home-container {
   background-image: url('https://res.cloudinary.com/djvjxp2am/image/upload/v1518705524/chatForumBackground_ptpba2.jpg');
   background-size: cover;
@@ -29,7 +34,6 @@
   color: white;
   font-size: var(--fontSize);
 }
-
 
 .access-button {
   background: rgba(111, 48, 115, 0.5);
@@ -165,6 +169,14 @@ h4 {
 
 .chat-container
 .chat-screen-navigation
+h6 {
+  text-align: center;
+  color: green !important;
+  padding: 10px;
+}
+
+.chat-container
+.chat-screen-navigation
 .users-online {
   background: rgba(0, 0, 0, 0.6);
   height: 500px;
@@ -190,9 +202,11 @@ h4 {
   .chat-screen-navigation
   .users-online {
     background: rgba(0, 0, 0, 0.6);
-    height: auto;
+    height: 150px;
+    overflow: auto;
   }
 }
+
 
 .chat-container .chat-screen-navigation ul {
   margin: 0;

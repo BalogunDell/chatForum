@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-// Import assets
-import './assets/js/chat';
+// Import assets=
+import './assets/js/fetcher';
 import './assets/css/style';
 
 // Import components

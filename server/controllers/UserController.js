@@ -31,7 +31,7 @@ class UserController {
           image,
           createdAt
         } = response.dataValues;
-        const token = generateToken({ id });
+        const token = generateToken({ id, username });
 
         res.status(201).json({
           message: 'User created',
@@ -82,7 +82,10 @@ class UserController {
         if (response !== null
           &&
           checkPassword(password, response.dataValues.password)) {
-          const token = generateToken({ id: response.dataValues.id });
+          const token = generateToken({
+            id: response.dataValues.id,
+            username: response.dataValues.username
+          });
   
           return res.status(201).json({
             message: 'Signed in',
@@ -116,7 +119,7 @@ class UserController {
    *
    * @returns {object} response from server
    */
-  static chatAccess(req, res) {
+  static getUser(req, res) {
     user.findOne({
       where: { id: req.body }
     })

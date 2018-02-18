@@ -61,3 +61,8 @@ export const errorMessages = (error) => {
   return error.name;
 };
 
+
+export const decodedToken = async (clientConnectionToken, client) => {
+  const decoded = await decodeToken(clientConnectionToken, client);
+  return decoded;
+};
