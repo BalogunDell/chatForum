@@ -125,11 +125,13 @@ class UserController {
     })
       .then((response) => {
         const {
+          id,
           username,
           image,
           createdAt
         } = response.dataValues;
         const userObject = {
+          id,
           username,
           image,
           createdAt

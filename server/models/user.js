@@ -39,12 +39,12 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: 'abbey.jpg'
     },
-  }, {
-    classMethods: {
-      associate: () => {
-        // associations can be defined here
-      }
-    }
   });
+  user.associate = (model) => {
+    user.hasMany(model.forum, {
+      foreignKey: 'senderId',
+      onDelete: 'CASCADE'
+    });
+  };
   return user;
 };

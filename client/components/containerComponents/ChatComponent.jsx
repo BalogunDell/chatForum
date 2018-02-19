@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import $ from 'jquery';
 import Button from '../presentationalComponents/reusables/Button';
 import Form from '../presentationalComponents/reusables/Form';
 import ChatBoard from '../presentationalComponents/ChatBoard';
-import { getStorage } from '../../utils/helpers';
+import {
+  getStorage,
+  UIupdater } from '../../utils/helpers';
 import { getMethod } from '../../assets/js/fetcher';
 
 
@@ -16,8 +19,11 @@ class ChatComponent extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      redirect: false
+      redirect: false,
+      socket: io.connect(`localhost:4000/?token=${getStorage()}`)
     }
+
+    // this.handleNewMessage = this.handleNewMessage.bind(this);
   }
 
 /**
@@ -34,8 +40,10 @@ componentWillMount() {
       userData: {},
       connectedUsers: [],
       response: {},
+      message: [],
       currentUser: '',
-      currentSessionId: ''
+      currentUserId: 0,
+      noMessages: false
     });
   }
 }
@@ -48,33 +56,106 @@ componentWillMount() {
  * @returns {object} updated
  */
 componentDidMount() {
-  const token = getStorage();
-  const socket = io.connect(`localhost:4000/?token=${token}`);
-  socket.on('connect', () => {
-    socket.on('all users online', (client) => {
-      console.log(client);
+
+  getMethod('/user', getStorage())
+    .then((response) => {
+      const {
+        username,
+        id
+      } = response.data.user;
+
+      this.setState({
+        currentUser: username,
+        currentUserId: id
+      });
+    })
+    .catch((error) => {
+      alertify.error('Session expired');
+      this.setState({
+        redirect: true
+      })
+    });
+
+    // Connect client
+  this.state.socket.on('connect', () => {
+    this.state.socket.on('all users online', (client) => {
       this.setState({
         response: client.users
       })
   });
 
+  // Fetch all forum messages
+  this.state.socket.on('forum messages', (messages) => {
+    if(messages.length == 0 || !messages) {
+       return this.setState({
+        noMessages: true
+      });
+    }
+    messages.map((message) => {
+      const messageObject = {
+        message: message.message,
+        sender: message.user.username,
+        timeSent: message.timeSent
+      };
+        UIupdater(messageObject);
+      const currentScrollHeight = messageDisplay.scrollHeight;
+      messageDisplay.scrollTop = currentScrollHeight;
+   
+    });
+  });
 
-  socket.emit('message', ('abbey'));
-
-  socket.on('new joined', (client) => {
+  // Send username to verify who the user is
+  this.state.socket.on('new joined', (client) => {
     alertify.success(`${client.username} just joined`);
   });
 
-  socket.on('authentication error', (message) => {
+  // If no token, log user out
+  this.state.socket.on('authentication error', (message) => {
     localStorage.clear();
     this.setState({
       redirect: true
     });
-    socket.disconnect();
+  
+
+  // On refresh or disconnection
+  this.state.socket.disconnect();
     alertify.error('You are not authenticated');
   })
 });
 
+
+  // Send message
+ 
+  $('#newMessage').keypress((ev) => {
+
+    this.state.socket.emit('typing', this.state.currentUser);
+
+    if(ev.which === 13) {
+      const messageObject = {
+        message: event.target.value,
+        sender: this.state.currentUser,
+        senderId: this.state.currentUserId
+      }
+        // Emit message to server
+      this.state.socket.emit('new message', (messageObject));
+      event.target.value = '';
+    }
+  });
+
+  // Show isTyping message
+  this.state.socket.on('user typing', (user) => {
+    document.getElementById('isTyping').innerHTML = `Someone is typing?`;
+  });
+  const messageDisplay = document.getElementById('messages');
+  this.state.socket.on('new saved message', (savedMessage) => {
+    document.getElementById('isTyping').innerHTML = '';
+      UIupdater(savedMessage);
+
+      // Push message display up
+      const currentScrollHeight = messageDisplay.scrollHeight;
+      messageDisplay.scrollTop = currentScrollHeight;
+   
+  });
 }
 
 /**
@@ -95,7 +176,8 @@ render() {
           <ChatBoard
             userData={this.state.userData}
             response={this.state.response}
-            test={this.state.response}
+            message={this.state.message}
+            noMessages={this.state.noMessages}
           />
         </div>
       </div>
