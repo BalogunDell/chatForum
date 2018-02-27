@@ -110,6 +110,18 @@ componentDidMount() {
         noMessages: true
       });
     }
+    console.log(messages);
+    messages.map((message) => {
+      const messageObject = {
+        message: message.message,
+        timeSent: message.timeSent,
+        sender: message.user.username
+      }
+      UIupdater(messageObject, 'messages');
+    })
+    const messageDisplay = document.getElementById('messages');
+    const currentScrollHeight = messageDisplay.scrollHeight;
+    messageDisplay.scrollTop = currentScrollHeight;
   });
 
   // Fetch private chat history
