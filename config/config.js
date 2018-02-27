@@ -14,7 +14,7 @@ module.exports = {
     dialect: 'postgres'
   },
   production: {
-    use_env_constiable: 'PRODUCTION_DB',
+    use_env_variable: 'PRODUCTION_DB',
     dialect: 'postgres'
   }
 };

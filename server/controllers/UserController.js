@@ -45,7 +45,6 @@ class UserController {
         });
       }).catch((error) => {
         const messageObject = errorMessages(error);
-
         switch (messageObject.type) {
           case 'uniqueError':
             res.status(409).json({ message: messageObject.error });

@@ -7,7 +7,7 @@
     "eslint": "eslint --fix server/",
     "start:server": "babel-node server/index.js",
     "start:devServer": "nodemon --watch server --exec babel-node server/index.js",
-    "start": "npm run start:server",
+    "start": "NODE_ENV=production npm run start:server",
     "start:devClient": "webpack --config ./webpack.dev.config.js",
     "start:dev": "npm run start:devClient && npm run start:devServer",
     "migrate": "sequelize db:migrate",

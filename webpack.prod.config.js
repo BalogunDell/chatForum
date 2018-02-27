@@ -24,7 +24,7 @@ module.exports = merge(common, {
     }),
     new webpack.EnvironmentPlugin({
       SECRET: JSON.stringify(process.env.SECRET),
-      PRODUCTION_DB: JSON.stringify(process.env.PRODUCTION_DB)
+      PRODUCTION_DB: JSON.stringify(process.env.PRODUCTION_DB),
     }),
   ],
 });

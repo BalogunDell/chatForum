@@ -35,7 +35,6 @@ const server = app.listen(port, () => {
   winston.level = 'info';
   winston.info('app started');
 });
-
 SocketController.onConnet(socket(server));
 
 export default app;
