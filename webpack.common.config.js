@@ -1,5 +1,6 @@
 const path = require('path');
-
+const webpack = require('webpack');
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: './client/index.jsx',
@@ -55,6 +56,19 @@ const config = {
       }
     ]
   },
+
+  plugins: [
+    new htmlWebpackPlugin({
+      template: './client/index.html',
+      title: 'Simple Chat Application'
+    }),
+    new webpack.ProvidePlugin({
+      $: 'Juery',
+      jQuery: 'jquery',
+      'window.$': '$',
+      'window.jQuery': 'jquery'
+    })
+  ]
 };
 
 module.exports = config;
