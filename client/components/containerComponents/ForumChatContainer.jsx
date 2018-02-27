@@ -23,7 +23,7 @@ class ForumChatContainer extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-      socket: io.connect(`localhost:9000/?token=${getStorage('token')}`),
+      socket: io.connect(`https://deechat.herokuapp.com/?token=${getStorage('token')}`),
       userData: {},
       response: [],
       selectedChatPartner: [],
