@@ -13,7 +13,7 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
-    "postinstall": "webpack --config ./webpack.dev.config.js",
+    "postinstall": "webpack --config ./webpack.prod.config.js",
     "test": "./node_modules/.bin/nyc --reporter=text mocha --require babel-register -- ./tests/**/*.spec.js"
   },
   "keywords": [
@@ -30,8 +30,8 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-react": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "css-loader": "^0.28.9",
@@ -62,7 +62,7 @@
     "style-loader": "^0.20.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1",
-    "webpack-merge": "^4.1.1",
+    "webpack-merge": "^4.1.2",
     "winston": "^2.4.0"
   },
   "devDependencies": {

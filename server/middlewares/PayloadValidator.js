@@ -61,7 +61,6 @@ class PayloadValidator {
       username,
       password
     } = req.body;
-    console.log(req.body);
     if (!username || !password) {
       return res.status(400).json({
         message: 'username and password required'

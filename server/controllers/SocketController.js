@@ -1,12 +1,13 @@
 import moment from 'moment';
 import {
   decodeToken,
-  saveForumMessage,
-  getForumMessage,
-  getUser
+  saveMessage,
+  getForumMessages,
+  getPrivateMessages,
+  getResource,
 } from '../utils/helpers';
 
-import { forum, user } from '../models';
+import { forum, user, privatemessage } from '../models';
 
 /**
  * @description Socket events
@@ -24,7 +25,6 @@ class SocketController {
    * @returns {object} response from server
    */
   static onConnet(socket) {
-
     // Define array to hold all conneted users
     let connectedUsers = [];
 
@@ -39,7 +39,7 @@ class SocketController {
             id
           } = decoded;
           
-          getUser(user, id)
+          getResource(user, id)
             .then((response) => {
               response.dataValues.sessionId = client.id;
               const {
@@ -52,7 +52,7 @@ class SocketController {
     
                 // Check if the user is not already in the online users list
               if (!result) {
-                connectedUsers.push({ username, sessionId });
+                connectedUsers.push({ username, sessionId, id });
               }
     
               // Check upon page refresh if user id has changed and the user is
@@ -64,7 +64,8 @@ class SocketController {
                   connectedUsers.splice(index, 1);
                   connectedUsers.push({
                     username: result.username,
-                    sessionId: client.id
+                    sessionId: client.id,
+                    id
                   });
                 }
               });
@@ -103,7 +104,7 @@ class SocketController {
                *
                * @returns {object} Forum messages
                */
-              getForumMessage(forum)
+              getForumMessages(forum)
                 .then((forumMessages) => {
                   client.emit('forum messages', forumMessages);
                 })
@@ -152,7 +153,7 @@ class SocketController {
           timeSent
         };
         // Save message to database
-        saveForumMessage(forum, payload)
+        saveMessage(forum, payload)
           .then((response) => {
             const savedMessage = {
               message: response.dataValues.message,
@@ -164,6 +165,62 @@ class SocketController {
           })
           .catch((error) => {
             socket.sockets.emit('error saving message', error);
+          });
+      });
+
+      /**
+       * @description Updates all users when a user starts typing
+       *
+       * @param {string} -- connection string
+       *
+       *
+       * @returns {object} update list of users
+       */
+      client.on('new private message', (messageObject) => {
+        const timeSent = moment().format('MMMM Do YYYY, h:mm a');
+        const {
+          senderId,
+          receiverId,
+          message,
+          receiverSessionId,
+          users
+        } = messageObject;
+        const payload = {
+          message,
+          senderId,
+          receiverId,
+          receiverSessionId,
+          timeSent,
+          users
+        };
+        // Save new private message to database
+        saveMessage(privatemessage, payload)
+          .then((response) => {
+            client.to(receiverSessionId)
+              .emit('saved private message', response);
+            client.emit('saved private message', response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+
+      /**
+       * @description fetch private message history
+       *
+       * @param {object} -- user IDs
+       *
+       *
+       * @returns {object} chat history
+       */
+      client.on('fetch chat history', (payload) => {
+        const { currentUser, chatPartnerUserId } = payload;
+        getPrivateMessages(privatemessage, currentUser, chatPartnerUserId)
+          .then((response) => {
+            client.emit('chat history', response);
+          })
+          .catch((error) => {
+            console.log(error);
           });
       });
 

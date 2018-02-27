@@ -14,11 +14,11 @@ const { SECRET } = process.env;
  *
  * @return { string } - token
  */
-export const generateToken = (userDetails) => JWT.sign(
-    userDetails,
-    SECRET,
-    { expiresIn: '24h' }
-  );
+export const generateToken = userDetails => JWT.sign(
+  userDetails,
+  SECRET,
+  { expiresIn: '24h' }
+);
 
 
 /**
@@ -28,15 +28,15 @@ export const generateToken = (userDetails) => JWT.sign(
  *
  * @return { string } - token
  */
-export const decodeToken = (token) => new Promise((resolve, reject) => {
-    JWT.verify(token, SECRET, (error, decoded) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(decoded);
-      }
-    });
+export const decodeToken = token => new Promise((resolve, reject) => {
+  JWT.verify(token, SECRET, (error, decoded) => {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(decoded);
+    }
   });
+});
 
 /**
  * @description This method returns error messages from sequelize
@@ -70,7 +70,8 @@ export const errorMessages = (error) => {
  *
  * @returns {object} response from server
  */
-export const saveForumMessage = (model, payload) => model.create(payload);
+export const saveMessage = (model, payload) => model.create(payload);
+
 
 /**
  * @static
@@ -80,11 +81,45 @@ export const saveForumMessage = (model, payload) => model.create(payload);
  *
  * @returns {object} response from server
  */
-export const getForumMessage = (model => model.findAll({
+export const getForumMessages = (model => model.findAll({
   include: {
     model: user
   }
 }));
+
+
+/**
+ * @static
+ *
+ * @param {object} model Model to inssert into
+ * @param {object} sender
+ * @param {object} receiver
+ *
+ * @returns {object} response from server
+ */
+export const getPrivateMessages = ((model, sender, receiver) => {
+  const users1 = `user${sender}:user${receiver}`;
+  const users2 = `user${receiver}:user${sender}`;
+  return model.findAll({
+    where: {
+      users: {
+        $or: [users1, users2]
+      }
+    },
+    include: [{
+      model: user,
+      as: 'sender',
+      attribute: 'username'
+    },
+    {
+      model: user,
+      as: 'receiver',
+      attribute: 'username'
+    }],
+    limit: 100,
+    order: [['createdAt', 'ASC']]
+  });
+});
 
 /**
  * @static
@@ -95,7 +130,7 @@ export const getForumMessage = (model => model.findAll({
  *
  * @returns {object} response from server
  */
-export const getUser = ((model, id) => model.findById(id));
+export const getResource = ((model, id) => model.findById(id));
 
 /**
  * @static

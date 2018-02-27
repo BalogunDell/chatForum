@@ -45,6 +45,16 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'senderId',
       onDelete: 'CASCADE'
     });
+
+    user.hasMany(model.privatemessage, {
+      foreignKey: 'senderId',
+      onDelete: 'CASCADE'
+    });
+
+    user.hasMany(model.privatemessage, {
+      foreignKey: 'receiverId',
+      onDelete: 'CASCADE'
+    });
   };
   return user;
 };

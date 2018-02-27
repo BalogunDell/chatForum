@@ -278,6 +278,12 @@ textarea {
   margin: 2%;
 }
 
+.privateGeneratedMessages {
+  font-size: 15px;
+  margin-left: auto;
+  padding: 0 2% 0 2%;
+}
+
 .generatedMessagesHolder {
   background: rgba(0,0,0,0.2);
   display: flex;
@@ -286,10 +292,92 @@ textarea {
   border-radius: 10px 0 20px 0;
 }
 
+
+.privateGeneratedMessagesHolder {
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 10px 0 20px 0;
+}
+
+.privateGeneratedMessagesHolder .float-element {
+  margin-left: auto;
+  font-size: 10px;
+  text-indent: 0pt;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+
 .generatedMessagesHolder .float-element {
   margin-left: auto;
   font-size: 10px;
   text-indent: 0pt;
   padding-right: 10px;
   padding-bottom: 5px;
+}
+
+.private-chatboard {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  bottom: 0;
+  right: 0;
+  width: 330px;
+  height: 290px;
+  background: red;
+  padding: 0 5px 0 5px;
+  margin-right: 10px;
+  background: black;
+  transition: height 2s;
+}
+
+.private-chatboard .privateChatMessagesBoard{
+  height: 290px;
+  overflow: auto;
+  padding: 10px 10px 10px 5px;
+  background: rgba(111, 106, 106, 0.8);
+}
+
+/* .private-chatboard .privateChatMessagesBoard p {
+} */
+
+.private-chatboard .chatPartner {
+  font-size: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.private-chatboard .chatPartner i {
+  font-size: 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.private-chatboard .chatPartner .chatIcons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-around;
+}
+.private-chatboard
+textarea {
+  width: 100%;
+  height: 50px;
+  font-size: 12px;
+  overflow: auto;
+  resize: none;
+}
+
+.private-chatboard .inviteUsers {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  transition:  display 1s;
+}
+
+.private-chatboard .inviteUsers h6 {
+  font-size: 10px;
+  text-align: center
 }
