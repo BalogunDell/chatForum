@@ -144,3 +144,35 @@ export const privateChatUIupdater = (savedMessage, parentElement) => {
   // Append to div
   return messageDisplay.appendChild(messagesHolder);
 };
+
+
+/**
+ * @description Scroll the messages board to the bottom
+ *
+ * @param {string} element
+ *
+ * @returns {boolean} true or false
+*/
+export const scrollDivToBottom = (element) => {
+  const messageDisplay = document.getElementById(element);
+  const currentScrollHeight = messageDisplay.scrollHeight;
+  messageDisplay.scrollTop = currentScrollHeight;
+};
+
+/**
+ * @description Scroll the messages board to the bottom
+ *
+ * @param {string} sender
+ * @param {string} timeSent
+ * @param {string} message
+ *
+ * @returns {boolean} true or false
+*/
+export const messageObject = (sender, timeSent, message) => {
+  return {
+    message,
+    timeSent,
+    sender
+  };
+};
+

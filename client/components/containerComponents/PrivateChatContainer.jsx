@@ -22,7 +22,7 @@ class PrivateChatContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      socket: io.connect(`https://deechat.herokuapp.com/?token=${getStorage('token')}`),
+      socket: io.connect(`localhost:9000/?token=${getStorage('token')}`),
       userData: {},
       selectedChatPartner: this.props.selectedChatPartner,
       newPrivateMessage:'',
@@ -112,6 +112,11 @@ componentDidMount() {
   // Private chat between two people
   $('#privateMessage').keypress((ev) => {
     if(ev.which === 13) {
+
+      if (event.target.value === '') {
+        return alertify.error('You cannot send a blank message');
+       }
+
       const id = getStorage('id');
       const selectedChatPartner = this.props.response.filter((users) => {
         return users.id === parseInt(id, 10);

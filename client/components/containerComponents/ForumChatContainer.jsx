@@ -9,7 +9,9 @@ import {
   getStorage,
   setStorage,
   UIupdater,
-  privateChatUIupdater } from '../../utils/helpers';
+  privateChatUIupdater,
+  scrollDivToBottom,
+  messageObject } from '../../utils/helpers';
 import { getMethod } from '../../assets/js/fetcher';
 
 
@@ -23,7 +25,7 @@ class ForumChatContainer extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-      socket: io.connect(`https://deechat.herokuapp.com/?token=${getStorage('token')}`),
+      socket: io.connect(`localhost:9000/?token=${getStorage('token')}`),
       userData: {},
       response: [],
       selectedChatPartner: [],
@@ -112,17 +114,21 @@ componentDidMount() {
     }
     console.log(messages);
     messages.map((message) => {
-      const messageObject = {
-        message: message.message,
-        timeSent: message.timeSent,
-        sender: message.user.username
-      }
-      UIupdater(messageObject, 'messages');
+
+      // Compose message object
+      const messagesObject = messageObject(
+        message.user.username,
+        message.timeSent,
+        message.message);
+      
+      // Update UI with messages 
+      UIupdater(messagesObject, 'messages');
     })
-    const messageDisplay = document.getElementById('messages');
-    const currentScrollHeight = messageDisplay.scrollHeight;
-    messageDisplay.scrollTop = currentScrollHeight;
+
+    // Scroll the messages div to the bottom
+    scrollDivToBottom('messages');
   });
+
 
   // Fetch private chat history
   this.state.socket.on('chat history', (history) => {
@@ -139,17 +145,21 @@ componentDidMount() {
       sender: this.state.selectedChatPartner[0].username
     });
   }
-  const messageObject = {
-    message: singleMessage.message,
-    timeSent: singleMessage.timeSent,
-    sender: this.state.sender
-  }
-  privateChatUIupdater( messageObject, 'privateChatMessagesBoard' );
+
+  // Compose message object
+  const messagesObject = messageObject(
+    this.state.sender,
+    singleMessage.timeSent,
+    singleMessage.message);
+
+  // Update the UI with the message
+  privateChatUIupdater( messagesObject, 'privateChatMessagesBoard' );
+  
   });
 
-  // Push message history board up
-  const currentScrollHeight = messageDisplay.scrollHeight;
-  messageDisplay.scrollTop = currentScrollHeight;
+   // Scroll the messages div to the bottom
+   scrollDivToBottom('privateChatMessagesBoard');
+
 });
 
   // Send username to verify who the user is
@@ -176,6 +186,10 @@ componentDidMount() {
   $('#newMessage').keypress((ev) => {
     this.state.socket.emit('typing', this.state.currentUser);
     if(ev.which === 13) {
+      if (event.target.value === ' ') {
+        $('#newMessage').val('').blur();
+       return alertify.error('You cannot send a blank message');
+      }
       const messageObject = {
         message: this.state.message,
         sender: this.state.currentUser,
@@ -184,7 +198,7 @@ componentDidMount() {
 
   // Emit message to server
     this.state.socket.emit('new message', (messageObject));
-      event.target.value = '';
+      $('#newMessage').val('').blur();
     }
   });
 
@@ -200,9 +214,8 @@ componentDidMount() {
     $('#messages h5#noHistory').remove();
       UIupdater(savedMessage, 'messages');
 
-  // Push message display up
-  const currentScrollHeight = messageDisplay.scrollHeight;
-  messageDisplay.scrollTop = currentScrollHeight;
+  // Scroll the messages div to the bottom
+  scrollDivToBottom('messages');
 
   });
 }
@@ -236,11 +249,6 @@ getSingleUser(event) {
   $('.private-chatboard').css({
     display: 'flex'
   });
-
-  // Scroll the messages div to the bottom
-  const messageDisplay = document.getElementById('privateChatMessagesBoard');
-  const currentScrollHeight = messageDisplay.scrollHeight;
-  messageDisplay.scrollTop = currentScrollHeight;
   
   const selectedChatPartner = this.state.response.filter((user) => {
     return user.id === chatPartnerUserId

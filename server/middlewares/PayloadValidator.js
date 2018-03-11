@@ -77,7 +77,7 @@ class PayloadValidator {
     };
 
     req.body = {
-      username,
+      username: username.toLowerCase(),
       password,
       checkPassword
     };
