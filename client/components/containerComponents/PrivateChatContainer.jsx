@@ -22,7 +22,7 @@ class PrivateChatContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      socket: io.connect(`localhost:9000/?token=${getStorage('token')}`),
+      socket: io.connect(`https://deechat.herokuapp.com/?token=${getStorage('token')}`),
       userData: {},
       selectedChatPartner: this.props.selectedChatPartner,
       newPrivateMessage:'',
