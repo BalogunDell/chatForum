@@ -1,14 +1,13 @@
 import React from 'react';
-import { getStorage, socketConnection } from '../../utils/helpers';
 
-const ChatBoard = ({
+const ForumChatBoard = ({
   userData,
   response,
-  test
+  message,
+  noMessages,
+  getSingleUser,
+  handleInput
 }) => {
-
-  const profileInfo = userData === undefined ? '': userData;
-  console.log(test);
   return(
     <div className="row">
     {/* First column holds chat screen navigation */}
@@ -22,12 +21,15 @@ const ChatBoard = ({
 
       <div className="users-online" id="users-online">
         <ul>{
-          test == undefined || !test 
+          response == undefined || !response 
           ?
           <h6>No users online</h6>
           :
-          test.map((user) => {
-            return <li key={user.sessionId}>
+          response.map((user) => {
+            return <li key={user.sessionId}
+            onClick={getSingleUser}
+            value={user.id}
+            >
               {user.username}
             </li> 
           })
@@ -41,19 +43,26 @@ const ChatBoard = ({
       <div>
         <h4>Chat History</h4>
       </div>
-
-      <div className="messages">
-        <p>Laolu: dfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadfdfajdfnjdfndanfadf</p>
-        <p>Femi: dfajdfnjdfndanfadf</p>
-      </div>
+      <div className="messages" id="messages">
+      {
+          noMessages ?
+          <h5 id="noHistory">No message history</h5>
+        :
+        null
+        }
+        <p id="isTyping"></p>
+        </div>
 
     {/* Input message holder */}
       <div className="row messaging-center">
 
-        <div className="col-sm-12">
+        <div className="col-sm-12" style={{padding: 0, margin:0}}>
           <textarea
-            name="newMessage" 
-            id="newMessage" >
+            name="message" 
+            id="newMessage"
+            value={message}
+            onChange={handleInput}
+            placeholder="Press enter to send your message...">
           </textarea>
         </div>
 
@@ -64,4 +73,4 @@ const ChatBoard = ({
   );
 };
 
-export default ChatBoard;
+export default ForumChatBoard;

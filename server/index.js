@@ -13,7 +13,7 @@ import SocketController from './controllers/SocketController';
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 winston.level = 'info';
 
@@ -31,11 +31,10 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(path.dirname(__dirname), 'dist/index.html'));
 });
 
-const server = app.listen(4000, () => {
+const server = app.listen(port, () => {
   winston.level = 'info';
   winston.info('app started');
 });
-
 SocketController.onConnet(socket(server));
 
 export default app;

@@ -60,7 +60,7 @@ handleLogin(event) {
     .then((response) => {
       alertify.success(`Welcome ${this.state.username}`);
       const token = response.data.token;
-      if(setStorage(token)) {
+      if(setStorage('token', token)) {
         this.setState({ 
           redirect: true,
           username: '',
@@ -96,7 +96,7 @@ handleLogin(event) {
     .then((response) => {
       alertify.success(`Welcome ${this.state.username}`);
       const token = response.data.token;
-      if(setStorage(token)) {
+      if(setStorage('token', token)) {
         this.setState({ 
           redirect: true,
           username: '',

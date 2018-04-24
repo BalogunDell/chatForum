@@ -10,7 +10,7 @@ import './assets/css/style';
 
 import Home from './components/presentationalComponents/Home';
 import Authentication from './components/containerComponents/Authentication';
-import ChatComponent from './components/containerComponents/ChatComponent';
+import ForumChatContainer from './components/containerComponents/ForumChatContainer';
 /**
  * 
  * @class App
@@ -29,7 +29,7 @@ class App extends React.Component {
             <Route path= "/home" exact component={Home}/>
             <Route path= "/login" exact component={Authentication}/>
             <Route path= "/register" exact component={Authentication}/>
-            <Route path= "/chat" exact component={ChatComponent}/>
+            <Route path= "/chat" exact component={ForumChatContainer}/>
             <Route path ="*" render={() => 
               <h4>Page does not exist</h4>
             }/>

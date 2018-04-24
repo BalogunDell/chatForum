@@ -45,7 +45,6 @@ class UserController {
         });
       }).catch((error) => {
         const messageObject = errorMessages(error);
-
         switch (messageObject.type) {
           case 'uniqueError':
             res.status(409).json({ message: messageObject.error });
@@ -125,11 +124,13 @@ class UserController {
     })
       .then((response) => {
         const {
+          id,
           username,
           image,
           createdAt
         } = response.dataValues;
         const userObject = {
+          id,
           username,
           image,
           createdAt
