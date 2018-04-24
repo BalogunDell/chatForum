@@ -112,7 +112,6 @@ componentDidMount() {
         noMessages: true
       });
     }
-    console.log(messages);
     messages.map((message) => {
 
       // Compose message object

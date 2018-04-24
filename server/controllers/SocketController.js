@@ -200,8 +200,7 @@ class SocketController {
               .emit('saved private message', response);
             client.emit('saved private message', response);
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
           });
       });
 
@@ -219,8 +218,7 @@ class SocketController {
           .then((response) => {
             client.emit('chat history', response);
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
           });
       });
 
