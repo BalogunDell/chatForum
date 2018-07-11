@@ -11,7 +11,8 @@ const ChatBoard = ({
   handleLogout,
   messageSenderId,
   chatMessages,
-  handleForumButton
+  handleForumButton,
+  currentUser
 }) => {
   return(
 
@@ -59,7 +60,7 @@ const ChatBoard = ({
 
           {
             chatMessages ? 
-            <UIupdater messages = {chatMessages}/>
+            <UIupdater messages={chatMessages}/>
             : 
             null
           }

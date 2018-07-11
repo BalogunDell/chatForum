@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Button from '../presentationalComponents/reusables/Button';
 import Form from '../presentationalComponents/reusables/Form';
 import { getMethod, postMethod } from '../../assets/js/fetcher';
 import { setStorage } from '../../utils/helpers';

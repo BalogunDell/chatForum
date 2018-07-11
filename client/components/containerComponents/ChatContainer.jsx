@@ -20,7 +20,7 @@ class ChatContainer extends React.Component {
     super(props);
     this.state = {
       redirect: false,
-      socket: io.connect(`http://localhost:9000/?token=${getStorage('token')}`),
+      socket: io.connect(`https://deechat.herokuapp.com/?token=${getStorage('token')}`),
       userData: {},
       response: [],
       selectedChatPartner: [],
@@ -378,6 +378,7 @@ render() {
               messageSenderId={this.state.messageSenderId}
               chatMessages={this.state.chatMessages}
               handleForumButton={this.handleForumButton}
+              currentUser={this.state.currentUser}
             />
         </div>
       </div>
