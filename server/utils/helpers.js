@@ -84,7 +84,8 @@ export const saveMessage = (model, payload) => model.create(payload);
 export const getForumMessages = (model => model.findAll({
   include: {
     model: user
-  }
+  },
+  order: [['createdAt', 'ASC']]
 }));
 
 

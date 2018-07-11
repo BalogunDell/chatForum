@@ -104,11 +104,14 @@ class SocketController {
                *
                * @returns {object} Forum messages
                */
-              getForumMessages(forum)
-                .then((forumMessages) => {
-                  client.emit('forum messages', forumMessages);
-                })
-                .catch(() => { });
+
+              client.on('forum messages needed', () => {
+                getForumMessages(forum)
+                  .then((forumMessages) => {
+                    client.emit('forum messages', forumMessages);
+                  })
+                  .catch(() => { });
+              });
             })
             .catch(() => {
               client.emit('authentication error', ('invalid/expired token'));
@@ -122,19 +125,6 @@ class SocketController {
             }
           });
         });
-
-      /**
-       * @description saves and returns saved message
-       *
-       * @param {string} -- connection string
-       *
-       *
-       * @returns {object} update list of users
-       */
-      client.on('typing', (userTyping) => {
-        client.broadcast.emit('user typing', userTyping);
-      });
-
 
       /**
        * @description Updates all users when a user starts typing
@@ -198,6 +188,7 @@ class SocketController {
           .then((response) => {
             client.to(receiverSessionId)
               .emit('saved private message', response);
+            client.to(receiverSessionId).emit('new message alert', response.senderId);
             client.emit('saved private message', response);
           })
           .catch(() => {

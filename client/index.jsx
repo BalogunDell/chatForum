@@ -7,10 +7,9 @@ import './assets/js/fetcher';
 import './assets/css/style';
 
 // Import components
-
 import Home from './components/presentationalComponents/Home';
 import Authentication from './components/containerComponents/Authentication';
-import ForumChatContainer from './components/containerComponents/ForumChatContainer';
+import ChatContainer from './components/containerComponents/ChatContainer';
 /**
  * 
  * @class App
@@ -29,7 +28,7 @@ class App extends React.Component {
             <Route path= "/home" exact component={Home}/>
             <Route path= "/login" exact component={Authentication}/>
             <Route path= "/register" exact component={Authentication}/>
-            <Route path= "/chat" exact component={ForumChatContainer}/>
+            <Route path= "/chat" exact component={ChatContainer}/>
             <Route path ="*" render={() => 
               <h4>Page does not exist</h4>
             }/>
